@@ -12,13 +12,11 @@ Mittens only requires `numpy`.
 
 ### User installation
 
-The easiest way to install `mittens` is with `pip`:
+You can install it by cloning the repository and run:
 
 ```
-pip install -U mittens
+python test_mittens.py
 ```
-
-You can also install it by cloning the repository and adding it to your Python path. Make sure you have at least `numpy` installed.
 
 ## Examples
 
