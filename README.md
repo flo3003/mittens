@@ -12,7 +12,7 @@ Mittens only requires `numpy`.
 
 ### User installation
 
-You can install it by cloning the repository and run:
+You can install it by cloning the repository and running:
 
 ```
 python test_mittens.py
