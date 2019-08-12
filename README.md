@@ -2,19 +2,13 @@
 
 # Mittens
 
-This package contains fast [TensorFlow](https://github.com/tensorflow/tensorflow) and [NumPy](https://github.com/numpy/numpy) implementations of [GloVe](https://nlp.stanford.edu/projects/glove/) and [Mittens](https://arxiv.org/abs/1803.09901).
-
-By vectorizing the GloVe objective function, we deliver massive speed gains over other Python implementations (10x on CPU; 60x on GPU). See the [Speed](#speed) section below.
-
-The caveat is that our implementation is only suitable for modest vocabularies (up to ~20k tokens should be fine) since the co-occurrence matrix must be held in memory.
-
-Vectorizing the objective also reveals that it is amenable to a retrofitting term that encourages representations to remain close to pretrained embeddings. This is useful for domains that require specialized representations but lack sufficient data to train them from scratch. Mittens starts with the general-purpose pretrained representations and tunes them to a specialized domain.
+This package contains a faster and more efficient [NumPy](https://github.com/numpy/numpy) implementation of [Mittens](https://arxiv.org/abs/1803.09901) which can work with sparse matrices.
 
 ## Installation
 
 ### Dependencies
 
-Mittens only requires `numpy`. However, if `tensorflow` is available, that will be used instead. The two implementations use the same cost function and optimizer, so the only difference is that the `tensorflow` version shows a small speed improvement on CPU, and a large speed improvement when run on GPU.
+Mittens only requires `numpy`.
 
 ### User installation
 
@@ -26,46 +20,23 @@ pip install -U mittens
 
 You can also install it by cloning the repository and adding it to your Python path. Make sure you have at least `numpy` installed.
 
-Note that neither method automatically installs TensorFlow: see [their instructions](https://www.tensorflow.org/install/).
-
-
 ## Examples
 
-For both examples, it is assumed that you have already computed the weighted co-occurrence matrix (`cooccurence` for vocabulary `vocab`).
+The file vocabulary.txt contains the list of words in the vocabulary. For example:
 
-### GloVe
+this
+is
+an
+example
 
-```
-from mittens import GloVe
+It is assumed that you have already computed the weighted co-occurrence matrix which is stored in a .txt file as follows:
 
-# Load `cooccurrence`
-# Train GloVe model
-glove_model = GloVe(n=25, max_iter=1000)  # 25 is the embedding dimension
-embeddings = glove_model.fit(cooccurrence)
-```
+word_a,word_b,cooccurrence
+0,1,8.0
+0,2,1.75
+0,3,0.53
 
-`embeddings` is now an `np.array` of size `(len(vocab), n)`, where the rows correspond to the tokens in `vocab`.
-
-A small complete example:
-
-```
-from mittens import GloVe
-import numpy as np
-
-cooccurrence = np.array([
-    [  4.,   4.,   2.,   0.],
-    [  4.,  61.,   8.,  18.],
-    [  2.,   8.,  10.,   0.],
-    [  0.,  18.,   0.,   5.]])
-glove_model = GloVe(n=2, max_iter=100)
-embeddings = glove_model.fit(cooccurrence)
-embeddings
-
-array([[ 1.13700831, -1.16577291],
-       [ 2.52644205,  1.56363213],
-       [ 0.2376546 ,  0.96793109],
-       [ 0.41685158,  1.32988596]], dtype=float32)
-```
+where 0,1,2,3 correspond to the words' indices in the vocabulary.txt file. 
 
 ### Mittens
 
