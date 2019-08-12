@@ -52,7 +52,7 @@ with -0.43608 0.39104 0.51657 -0.13861
 .
 ```
 
-Finally, a file with the original embeddings in the vocabulary is needed. Stored as `original_embeddings.txt` as follows:
+Finally, a file with the original embeddings of the vocabulary is needed. These vectors should be stored in `original_embeddings.txt` as follows:
 
 ```
 0.001 0.002 -0.001 0.000
