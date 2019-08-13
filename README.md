@@ -81,7 +81,7 @@ where you can select a name for the output mittens file *(-m)*, the learning rat
 
 Once trained, `mittens_embeddings.txt` should be *compatible* with the existing embeddings in the sense that they will be oriented such that using a mix of the the two embeddings is meaningful (e.g. using original embeddings for any test-set tokens that were not in the training set).
 
-We also store the training error in `error.txt` file.
+We also store the history of the training error in `error.txt` file.
 
 ## References
 [1] Nicholas Dingwall and Christopher Potts. 2018. *Mittens: An Extension of GloVe for Learning Domain-Specialized Representations*. (NAACL 2018) [[code]](https://github.com/roamanalytics/roamresearch/tree/master/Papers/Mittens)
