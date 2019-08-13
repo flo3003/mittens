@@ -68,7 +68,7 @@ Now that we have our embeddings (stored as `original_embeddings.txt`), a co-occu
 Simply run 
 
 ```
-python run_mittens.py
+python run_mittens.py -p pretrained_vectors.txt -c coo_matrix.txt -v vocabulary.txt -o original_embeddings.txt
 ```
 
 Once trained, `mittens_embeddings.txt` should be *compatible* with the existing embeddings in the sense that they will be oriented such that using a mix of the the two embeddings is meaningful (e.g. using original embeddings for any test-set tokens that were not in the training set).
