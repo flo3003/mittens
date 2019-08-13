@@ -77,7 +77,7 @@ or
 python run_mittens.py -p pretrained_vectors.txt -c coo_matrix.txt -v vocabulary.txt -o original_embeddings.txt -m mittens_embeddings.txt -lr 0.01 -i 2
 ```
 
-where you can select a name for the output mittens file (-m), the learning rate (-lr) and the number of iterations (-i).
+where you can select a name for the output mittens file *(-m)*, the learning rate *(-lr)* and the number of iterations *(-i)*.
 
 Once trained, `mittens_embeddings.txt` should be *compatible* with the existing embeddings in the sense that they will be oriented such that using a mix of the the two embeddings is meaningful (e.g. using original embeddings for any test-set tokens that were not in the training set).
 
