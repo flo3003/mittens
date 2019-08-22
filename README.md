@@ -2,7 +2,7 @@
 
 # Mittens
 
-This package contains a faster and more efficient [NumPy](https://github.com/numpy/numpy) implementation of [Mittens](https://arxiv.org/abs/1803.09901) [1] which can work with sparse matrices.
+This package contains a faster and more efficient [NumPy](https://github.com/numpy/numpy) implementation of [Mittens](https://arxiv.org/abs/1803.09901) [1] which can work with **sparse matrices**.
 
 ## Installation
 
@@ -20,7 +20,7 @@ python test_mittens.py
 
 ## Examples
 
-The file `vocabulary.txt` contains the list of words in the vocabulary. For example:
+The file `vocabulary.txt` must contain the list of words in the vocabulary. For example:
 
 ```
 this
