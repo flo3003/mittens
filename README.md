@@ -59,6 +59,12 @@ The following files will be created:
 - `corpus.model` and `glove.model` are the saved corpus and glove models
 - `random_initial_vectors.txt` contains the embeddings' initialization 
 
+Change again into `mittens` directory:
+
+```
+cd ..
+```
+
 Then run:
 ```
 chmod +x get_vocab.sh
