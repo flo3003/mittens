@@ -65,7 +65,7 @@ chmod +x get_vocab.sh
 ./get_vocab.sh
 ```
 
-These commands create the file `vocabulary.csv` which is the vocabulary of the corpus. 
+These commands create the files `vocabulary.csv`, which is the vocabulary of the corpus and `coo_matrix.csv` which is the the correct format of the co-occurrence matrix that will be used in the training.
 
 Finally you need to download pretrained embeddings in GloVe format (e.g. [glove.6B](http://nlp.stanford.edu/data/glove.6B.zip)) in the `mittens` directory.
 
@@ -74,17 +74,15 @@ Now that we have the necessary files, we are ready to train Mittens:
 Simply run 
 
 ```
-python run_mittens.py -p pretrainedembeddingsfile -c glove-python/coo_matrix.csv -v vocabulary.csv -m mittens_embeddings.txt -lr 0.01 -i 250
+python run_mittens.py -p pretrainedembeddingsfile -c coo_matrix.csv -v vocabulary.csv -m mittens_embeddings.txt -lr 0.01 -i 250
 ```
 
 You can select:
-- a name for the output mittens file *(-m)* - the default is `mittens_embeddings.txt`, 
-- the learning rate *(-lr)* - the default is `0.01` and 
-- the number of iterations *(-i)* - the default is `250`
+- a name for the output mittens file *(-m)*, the default is `mittens_embeddings.txt`, 
+- the learning rate *(-lr)*, the default is `0.01` and 
+- the number of iterations *(-i)*, the default is `250`
 
-Once trained, `mittens_embeddings.txt` should be *compatible* with the existing embeddings in the sense that they will be oriented such that using a mix of the the two embeddings is meaningful (e.g. using original embeddings for any test-set tokens that were not in the training set).
-
-We also store the history of the training error in `error.txt` file.
+The history of the training error is also stored in `error.txt` file.
 
 ## References
 [1] Nicholas Dingwall and Christopher Potts. 2018. *Mittens: An Extension of GloVe for Learning Domain-Specialized Representations*. (NAACL 2018) [[code]](https://github.com/roamanalytics/roamresearch/tree/master/Papers/Mittens)
