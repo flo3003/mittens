@@ -56,7 +56,7 @@ print "Converting co-occurence matrix to csr format..."
 my_csr_matrix=my_coo_matrix.tocsr()
 
 print "Initializing mittens model..."
-mittens_model = Mittens(n= weights.shape[1], max_iter=int(args.iterations), learning_rate=float(args.learning_rate))
+mittens_model = Mittens(n= len(weights[0]), max_iter=int(args.iterations), learning_rate=float(args.learning_rate))
 
 print "Running mittens..."
 new_embeddings, hist = mittens_model.fit(my_csr_matrix, vocab=vocab[:-1], initial_embedding_dict= initial_embeddings)
