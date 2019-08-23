@@ -64,7 +64,7 @@ class Mittens(MittensBase):
         for iteration in range(self.max_iter):
             pred = self._make_prediction(coincidence)
             diffs = pred - log_coincidence.reshape(len(log_coincidence),1)
-            gradients, error = self._get_gradients_and_error(diffs, coincidence, weights)
+            gradients, error = self._get_gradients_and_error(diffs, coincidence, weights, len(vocab))
             self._check_shapes(gradients)
             self.errors.append(error)
             self._apply_updates(gradients)
@@ -122,7 +122,7 @@ class Mittens(MittensBase):
 
         return pred
 
-    def _get_gradients_and_error(self, diffs, weighted_diffs_mat, weights):
+    def _get_gradients_and_error(self, diffs, weighted_diffs_mat, weights, nu_words):
 
         weighted_diffs = np.multiply(weights.reshape(len(weights),1), diffs)
         weighted_diffs_mat.data=np.array(weighted_diffs).ravel()
@@ -130,8 +130,8 @@ class Mittens(MittensBase):
         wgrad = weighted_diffs_mat*self.C
         cgrad =  weighted_diffs_mat.transpose()*self.W
 
-        bcgrad = ndimage.sum(weighted_diffs_mat.data, weighted_diffs_mat.nonzero()[1], np.arange(weighted_diffs_mat.nonzero()[1].min(), weighted_diffs_mat.nonzero()[1].max()+1)).reshape(-1,1)
-        bwgrad = ndimage.sum(weighted_diffs_mat.data, weighted_diffs_mat.nonzero()[0], np.arange(weighted_diffs_mat.nonzero()[0].min(), weighted_diffs_mat.nonzero()[0].max()+1)).reshape(-1,1)
+        bcgrad = ndimage.sum(weighted_diffs_mat.data, weighted_diffs_mat.nonzero()[1], np.arange(0,nu_words)).reshape(-1,1)
+        bwgrad = ndimage.sum(weighted_diffs_mat.data, weighted_diffs_mat.nonzero()[0], np.arange(0,nu_words)).reshape(-1,1)
         error = (0.5 * np.multiply(weights.reshape(len(weights),1), diffs**2)).sum()
 
         # Then we add the Mittens term (only if mittens > 0)
