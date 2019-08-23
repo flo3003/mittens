@@ -6,78 +6,81 @@ This package contains a faster and more efficient [NumPy](https://github.com/num
 
 ## Installation
 
-### Dependencies
+Obviously first clone this repository.
 
-Mittens only requires `numpy`.
+```
+git clone https://github.com/flo3003/mittens.git
+```
 
-### User installation
+Change into the cloned mittens directory:
 
-You can install it by cloning the repository and running:
+```
+cd mittens
+```
+
+and then run:
 
 ```
 python test_mittens.py
 ```
 
-## Examples
+## Training
 
-The file `vocabulary.txt` must contain the list of words in the vocabulary. For example:
 
-```
-this
-is
-an
-example
-```
 
-It is assumed that you have already computed the weighted co-occurrence matrix which is stored in `coo_matrix.txt` as follows:
+### Instructions to create the necessary files:
+
+Now you will need to clone the following [Github repo](https://github.com/flo3003/glove-python) in mittens's directory
 
 ```
-word_a,word_b,cooccurrence
-0,1,8.0
-0,2,1.75
-0,3,0.53
+git clone https://github.com/flo3003/glove-python.git
 ```
 
-where 0,1,2,3 correspond to the words' indices in the `vocabulary.txt` file. 
-
-To use Mittens, you first need pre-trained embeddings. These vectors should be stored in `pretrained_vectors.txt` as follows:
+Then run the following commands in order:
 
 ```
-the -0.038194 -0.24487 0.72812 -0.39961
-with -0.43608 0.39104 0.51657 -0.13861
-.
-.
-.
+cd glove-python
+python setup.py cythonize
+pip install -e .
 ```
 
-Finally, a file with the original embeddings of the vocabulary is needed. These vectors should be stored in `original_embeddings.txt` as follows:
+In the glove-python directory run
 
 ```
-0.001 0.002 -0.001 0.000
--0.002 -0.001 -0.005 -0.003
-0.000 0.003 -0.004 -0.004
--0.001 0.003 0.002 0.001
+python examples/get_database_files.py -c /path/to/some/corpustextfile -d 100
+```
+The argument `-d` refers to the embedding dimensions. The default is 100. 
+
+`corpustextfile` can be any plain text file (with words being separated by space) with punctuation or not. 
+
+The following files will be created:
+- `coo_matrix.csv` which contains the co-occurrence matrix of `corpustextfile` in sparse format
+- `word_mapping.csv` which contains the mapping of each **word** to an **Id**
+- `corpus.model` and `glove.model` are the saved corpus and glove models
+- `random_initial_vectors.txt` contains the embeddings' initialization 
+
+Then run:
+```
+chmod +x get_vocab.sh
+./get_vocab.sh
 ```
 
-Each line of `original_embeddings.txt` corresponds to each word in `vocabulary.txt` in the same order.
+These commands create the file `vocabulary.csv` which is the vocabulary of the corpus. 
 
-### Mittens
+Finally you need to download pretrained embeddings in GloVe format (e.g. [glove.6B](http://nlp.stanford.edu/data/glove.6B.zip)) in the `mittens` directory.
 
-Now that we have our embeddings (stored as `original_embeddings.txt`), a co-occurrence matrix (stored as `coo_matrix.txt`), the associated vocabulary (stored as `vocabulary.txt`) and the pre-trained embeddings (stored as `pretrained_vectors.txt`), we're ready to train Mittens:
+Now that we have the necessary files, we are ready to train Mittens:
 
 Simply run 
 
 ```
-python run_mittens.py -p pretrained_vectors.txt -c coo_matrix.txt -v vocabulary.txt -o original_embeddings.txt
+python run_mittens.py -p pretrainedembeddingsfile -c glove-python/coo_matrix.csv -v vocabulary.csv -m mittens_embeddings.txt -lr 0.01 -i 250
 ```
 
-or
-
-```
-python run_mittens.py -p pretrained_vectors.txt -c coo_matrix.txt -v vocabulary.txt -o original_embeddings.txt -m mittens_embeddings.txt -lr 0.01 -i 2
-```
-
-where you can select a name for the output mittens file *(-m)*, the learning rate *(-lr)* and the number of iterations *(-i)*.
+You can select:
+- a name for the output mittens file *(-m)* - the default is `mittens_embeddings.txt`, 
+- the learning rate *(-lr)* - the default is `0.01` and 
+- the number of iterations *(-i)* - the default is `250`
 
 Once trained, `mittens_embeddings.txt` should be *compatible* with the existing embeddings in the sense that they will be oriented such that using a mix of the the two embeddings is meaningful (e.g. using original embeddings for any test-set tokens that were not in the training set).
 
