@@ -6,7 +6,7 @@ from mittens.np_mittens import Mittens, GloVe
 import argparse
 
 # Train Mittens with the following command:
-# python run_mittens.py -p pretrained_vectors.txt -c coo_matrix.txt -v vocabulary.txt -o original_embeddings.txt -m mittens_embeddings.txt -lr 0.01 -i 2
+# python run_mittens.py -p pretrained_vectors.txt -c coo_matrix.txt -v vocabulary.txt -lr 0.01 -i 2
 
 parser = argparse.ArgumentParser(description='Fit a Mittens model.')
 
@@ -22,21 +22,17 @@ parser.add_argument('--my_coo_matrix', '-c', action='store',
                     default=None,
                     help=('The filename that contains the co-occurrence matrix in sparse format.'))
 
-parser.add_argument('--original_embeddings', '-o', action='store',
-                    default=None,
-                    help=('The filename that contains the original embeddings.'))
-
 parser.add_argument('--mittens_output', '-m', action='store',
-                    default='mittens_embeddings.txt',
+                    default="mittens_embeddings.txt",
                     help=('The filename that contains the mittens embeddings.'))
 
 parser.add_argument('--learning_rate', '-lr', action='store',
-                    default='0.01',
-                    help='Learning rate.')
+                        default='0.01',
+                        help='Learning rate.')
 
 parser.add_argument('--iterations', '-i', action='store',
-                    default=2,
-                    help=('Number of iterations.'))
+                        default=250,
+                        help=('Number of iterations.'))
 
 args = parser.parse_args()
 
@@ -60,7 +56,7 @@ print "Converting co-occurence matrix to csr format..."
 my_csr_matrix=my_coo_matrix.tocsr()
 
 print "Initializing mittens model..."
-mittens_model = Mittens(n= weights.shape[1], max_iter=int(args.iterations), learning_rate=float(args.learning_rate), init_file=args.original_embeddings)
+mittens_model = Mittens(n= weights.shape[1], max_iter=int(args.iterations), learning_rate=float(args.learning_rate))
 
 print "Running mittens..."
 new_embeddings, hist = mittens_model.fit(my_csr_matrix, vocab=vocab[:-1], initial_embedding_dict= initial_embeddings)
