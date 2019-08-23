@@ -71,7 +71,7 @@ chmod +x get_vocab.sh
 ./get_vocab.sh
 ```
 
-These commands create the files `vocabulary.csv`, which is the vocabulary of the corpus and `coo_matrix.csv` which is the the correct format of the co-occurrence matrix that will be used in the training.
+These commands create the files `vocabulary.txt`, which is the vocabulary of the corpus and `coo_matrix.txt` which is the the correct format of the co-occurrence matrix that will be used in the training.
 
 Finally you need to download pretrained embeddings in GloVe format (e.g. [glove.6B](http://nlp.stanford.edu/data/glove.6B.zip)) in the `mittens` directory.
 
@@ -80,7 +80,7 @@ Now that we have the necessary files, we are ready to train Mittens:
 Simply run 
 
 ```
-python run_mittens.py -p pretrainedembeddingsfile -c coo_matrix.csv -v vocabulary.csv -m mittens_embeddings.txt -lr 0.01 -i 250
+python run_mittens.py -p pretrainedembeddingsfile -c coo_matrix.txt -v vocabulary.txt -m mittens_embeddings.txt -lr 0.01 -i 250
 ```
 
 You can select:
