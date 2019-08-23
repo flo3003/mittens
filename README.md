@@ -90,5 +90,12 @@ You can select:
 
 The history of the training error is also stored in `error.txt` file.
 
+Finally, in order to convert the mittens embeddings to GloVe format simply run:
+
+```
+chmod +x convert2gloveformat.sh
+./convert2gloveformat.sh
+```
+
 ## References
 [1] Nicholas Dingwall and Christopher Potts. 2018. *Mittens: An Extension of GloVe for Learning Domain-Specialized Representations*. (NAACL 2018) [[code]](https://github.com/roamanalytics/roamresearch/tree/master/Papers/Mittens)
